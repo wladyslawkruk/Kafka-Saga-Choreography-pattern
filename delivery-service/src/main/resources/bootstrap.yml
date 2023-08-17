@@ -1,0 +1,21 @@
+server:
+  servlet:
+    context-path: /delivery
+  port: 8086
+spring:
+  application:
+    name: delivery-service
+  profiles:
+    active: local
+  cloud:
+    config:
+      uri: ${CONFIG_URI:http://localhost:8761}
+      fail-fast: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    #    non-secure-port: 8888
+    preferIpAddress: true
+#    non-secure-port-enabled: true

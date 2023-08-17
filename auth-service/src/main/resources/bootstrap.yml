@@ -1,0 +1,27 @@
+server:
+  servlet:
+    context-path: /auth
+
+spring:
+  application:
+    name: auth-service
+  profiles:
+    active: local
+  cloud:
+    config:
+      uri: ${CONFIG_URI:http://localhost:8761}
+      fail-fast: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+# could be used for debugging
+#logging:
+#  level:
+#    org:
+#      springframework: TRACE
+

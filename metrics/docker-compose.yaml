@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  grafana-order:
+    build: 'config/grafana'
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      monitoring:
+        aliases:
+          - grafana
+  prometheus-order:
+    image: prom/prometheus
+    ports:
+      - 2000:9090
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      monitoring:
+        aliases:
+          - prometheus
+networks:
+  monitoring:

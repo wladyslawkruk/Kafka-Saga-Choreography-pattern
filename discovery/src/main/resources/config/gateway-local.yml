@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: gateway
+
+jwt:
+  secret: B9vPHGM8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadwezxgeEByY
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+    enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+
+server:
+  port: 9090

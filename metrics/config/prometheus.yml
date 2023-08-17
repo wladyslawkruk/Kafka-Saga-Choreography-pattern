@@ -1,0 +1,21 @@
+scrape_configs:
+  - job_name: 'order service'
+    scrape_interval: 5s
+    metrics_path: 'api/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:9090']
+  - job_name: 'payment service'
+    scrape_interval: 5s
+    metrics_path: 'payment/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:9090']
+  - job_name: 'inventory service'
+    scrape_interval: 5s
+    metrics_path: 'inventory/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:9090']
+  - job_name: 'delivery service'
+    scrape_interval: 5s
+    metrics_path: 'delivery/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:9090']

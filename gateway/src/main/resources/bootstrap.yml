@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: local
+  cloud:
+    config:
+      uri: ${CONFIG_URI:http://localhost:8761}
+      fail-fast: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+springdoc:
+  swagger-ui:
+    use-root-path: true
+    urls:
+      - name: auth
+        url: /auth/v3/api-docs
+      - name: order
+        url: /api/v3/api-docs
+      - name: payment
+        url: /payment/v3/api-docs
+      - name: inventory
+        url: /inventory/v3/api-docs
+      - name: delivery
+        url: /delivery/v3/api-docs
+
+# could be used for debugging
+#logging:
+#  level:
+#    org:
+#      springframework: TRACE
+

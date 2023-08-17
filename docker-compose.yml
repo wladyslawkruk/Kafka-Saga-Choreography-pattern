@@ -1,0 +1,56 @@
+version: '2.2'
+services:
+  psql:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES="order_db","auth_user_db","payment_db","inventory_db","delivery_db" # TODO add here other databases if needed
+      - POSTGRES_USER=postgre_user
+      - POSTGRES_PASSWORD=postgre_secret_password
+    volumes:
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
+      - database-data:/var/lib/postgresql/data/
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    restart: on-failure
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092" # use this port in case you want to run application inside the docker container
+      - "9094:9094" # use this port in case you want to run applications from IDE
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://localhost:9094
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - kafka:/data
+    restart: on-failure
+
+  # Convenient UI for Apache Kafka https://github.com/provectus/kafka-ui
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "9999:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+
+volumes:
+  database-data:
+  kafka:
+

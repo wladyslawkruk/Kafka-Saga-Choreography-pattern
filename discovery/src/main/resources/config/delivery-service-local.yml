@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: delivery-service
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/delivery_db}
+    username: ${DATABASE_USER:postgre_user}
+    password: ${DATABASE_PASSWORD:postgre_secret_password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: update
+      format_sql: true
+    show-sql: true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+    enabled: true
+
+server:
+  port: 8086
+
