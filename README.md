@@ -1,3 +1,5 @@
+All microservices presented are Spring-Boot driven.
+
 The project contains the following subprojects: 
 
 1. Gateway-service
