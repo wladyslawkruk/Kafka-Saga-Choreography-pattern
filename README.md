@@ -1,4 +1,23 @@
-All microservices presented are Spring-Boot driven.
+Spring-Boot driven microservice architecture based solution.
+
+General tech stack used:
+- Spring Boot
+- Spring Cloud Netflix
+- PostgreSql
+- Hibernate
+- Apache Kafka + Zookeeper + Kafka UI
+- Prometheus Micrometer
+- Docker
+- Swagger
+
+This solution could serve as a template for an online shop, where workflow can be presented
+as a chain of [Client Authorization -> Placing order -> Payment -> Inventory -> Delivery] processes
+and where each one is being deployed at its own server. Communication is being established with Apache Kafka,
+the communication pattern is Saga Choreography.
+
+![](patternScheme.png)
+
+
 
 The project contains the following subprojects: 
 
@@ -17,9 +36,9 @@ This project is Choreography SAGA-pattern driven.
 ## Environment
 
 To run PostgreSQL with Kafka you have to execute the command in project root Report-service:
-```
-$sudo docker-compose up -d
-```
+
+docker-compose up -d
+
 
 Also, you have convenient [UI for Apache Kafka](https://github.com/provectus/kafka-ui) at URL
 
@@ -145,7 +164,7 @@ curl -X 'POST' \
 ## Running metrics tools with docker-compose
 You can also implement Prometheus micrometer-driven metrics convenient service
 change root directory with "cd metrics", then
-```bash  
+
 docker-compose up
-```
+
 
